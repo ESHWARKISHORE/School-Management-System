@@ -22,11 +22,17 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg04.jpg";
+import axiosInstance from "config/config";
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [adminUser, setadminUser]=React.useState("");
+  const [adminUserError, setAdminUserError]= React.useState("");
+  const [adminPassword, setAdminPassword]=React.useState("");
+  const [adminPasswordError, setAdminPasswordError]=React.useState("");
+  const [loginError, setLogineeError]=React.useState("");
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
@@ -59,13 +65,18 @@ export default function LoginPage(props) {
                   </CardHeader>
                   <CardBody>
                     <CustomInput
-                      labelText="ID Number"
-                      id="id"
+                      labelText="Admin ID Number"
+                      id="adminUser"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
+                        required: true
                       }}
                       inputProps={{
                         type: "text",
+                        onChange: event=>{
+                          setadminUser(event.target.value);
+                        },
+                        autoComplete:"on",
                         endAdornment: (
                           <InputAdornment position="end">
                             <AccountCircle className={classes.inputIconsColor} />
@@ -73,14 +84,25 @@ export default function LoginPage(props) {
                         )
                       }}
                     />
+                    {adminUserError !== "" ? (
+                      <span style={{color:"red"}}>{{adminUserError}}</span>
+                    ):(
+                      adminUserError
+                    )
+                    }
+                    <br/>
                     <CustomInput
                       labelText="Password"
-                      id="pass"
+                      id="adminPassword"
                       formControlProps={{
                         fullWidth: true
                       }}
                       inputProps={{
                         type: "password",
+                        onChange: event=>{
+                          setAdminPassword(event.target.value);
+                        },
+                        autoComplete:"on",
                         endAdornment: (
                           <InputAdornment position="end">
                             <Icon className={classes.inputIconsColor}>
@@ -91,9 +113,33 @@ export default function LoginPage(props) {
                         autoComplete: "off"
                       }}
                     />
+                    {adminPassword !== "" ? (
+                      <span style={{color:"red"}}>{{adminPassword}}</span>
+                    ):(
+                      adminPassword
+                    )
+                    }
+                    <br/>
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button 
+                    simple 
+                    color="primary" 
+                    size="lg"
+                    onClick={event=>{
+                      event.preventDefault();
+                      console.log("Button is pressed");
+                      if(adminUser && adminPassword){
+                        axiosInstance
+                        .post("",{
+                          adminUser,adminPassword
+                        })
+                        .then(response=>{
+
+                        })
+                      }
+                    }}
+                    >
                       Login
                     </Button>
                   </CardFooter>

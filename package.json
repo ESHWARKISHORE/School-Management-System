@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "4.10.0",
     "@material-ui/icons": "4.9.1",
+    "axios": "^0.19.2",
     "classnames": "2.2.6",
     "expess": "0.0.1-security",
     "express-favicon": "^2.0.1",
